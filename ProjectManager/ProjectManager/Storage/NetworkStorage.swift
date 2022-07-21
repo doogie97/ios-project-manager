@@ -24,4 +24,8 @@ struct NetworkStorage {
         ]
         database.reference().child(item.type).child(item.id).setValue(object)
     }
+    
+    func deleteItem(_ item: ListItemDTO) {
+        database.reference().child(item.type).child(item.id).removeValue()
+    }
 }

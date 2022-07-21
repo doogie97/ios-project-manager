@@ -61,6 +61,8 @@ final class AppStorage: Storegeable {
         let newList = localStorage.readList(type)
         
         selectList(type).accept(newList)
+        
+        networkStorage.deleteItem(item.convertedItem)
     }
     
     func changeItemType(index: Int, type: ListType, destination: ListType) {
