@@ -20,6 +20,7 @@ protocol Storegeable {
 
 final class AppStorage: Storegeable {
     private let localStorage = LocalStorage()
+    private let networkStorage = NetworkStorage()
     
     lazy var todoList = BehaviorRelay<[ListItem]>(value: localStorage.readList(.todo))
     lazy var doingList = BehaviorRelay<[ListItem]>(value: localStorage.readList(.doing))
@@ -38,6 +39,7 @@ final class AppStorage: Storegeable {
     
     func creatItem(listItem: ListItem) {
         localStorage.createItem(listItem.convertedItem)
+        networkStorage.createItem(listItem.convertedItem)
         todoList.accept(localStorage.readList(.todo))
     }
     
