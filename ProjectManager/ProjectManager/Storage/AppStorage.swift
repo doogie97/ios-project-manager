@@ -52,6 +52,8 @@ final class AppStorage: Storegeable {
         
         let newList = localStorage.readList(listItem.type)
         selectList(listItem.type).accept(newList)
+        
+        networkStorage.updateItem(listItem.convertedItem)
     }
     
     func deleteItem(index: Int, type: ListType) {
