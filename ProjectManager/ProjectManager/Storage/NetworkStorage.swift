@@ -14,7 +14,8 @@ struct NetworkStorage {
         database.isPersistenceEnabled = true
     }
     
-    func addTodo(_ item: ListItemDTO) {
+    func createItem(_ item: ListItem) {
+        let item = item.convertedItem
         let object: [String: Any] = [
             "title": item.title,
             "body": item.body,
