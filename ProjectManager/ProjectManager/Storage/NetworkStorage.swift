@@ -13,4 +13,15 @@ struct NetworkStorage {
     init() {
         database.isPersistenceEnabled = true
     }
+    
+    func addTodo(_ item: ListItemDTO) {
+        let object: [String: Any] = [
+            "title": item.title,
+            "body": item.body,
+            "deadline": item.deadline.timeIntervalSince1970,
+            "type": item.type,
+            "id": item.id
+        ]
+        database.reference().child("TODO").child(item.id).setValue(object)
+    }
 }
