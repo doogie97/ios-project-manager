@@ -22,6 +22,6 @@ struct NetworkStorage {
             "type": item.type,
             "id": item.id
         ]
-        database.reference().child("TODO").child(item.id).setValue(object)
+        database.reference().child(item.type).child(item.id).setValue(object)
     }
 }
