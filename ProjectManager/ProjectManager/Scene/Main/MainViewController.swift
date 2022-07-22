@@ -45,11 +45,16 @@ final class MainViewController: UIViewController {
         navigationStackView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalTo(self.view.safeAreaLayoutGuide).inset(20)
-            $0.height.equalTo(50)
+            $0.height.equalTo(40)
         }
         
-        networkLabel.snp.makeConstraints {
+        networkStackView.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.1)
+        }
+        
+        stateImage.snp.makeConstraints {
+            $0.width.equalTo(13)
+            $0.height.equalTo(13)
         }
         
         addButton.snp.makeConstraints {
@@ -57,7 +62,7 @@ final class MainViewController: UIViewController {
         }
         
         mainStackView.snp.makeConstraints {
-            $0.top.equalTo(navigationStackView.snp.bottom).offset(10)
+            $0.top.equalTo(navigationStackView.snp.bottom).offset(15)
             $0.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         setNavigationBar()
@@ -205,24 +210,39 @@ final class MainViewController: UIViewController {
     
     // MARK: - UI Components
     private lazy var navigationStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [networkLabel, titleLabel, addButton])
-        stackView.alignment = .center
+        let stackView = UIStackView(arrangedSubviews: [networkStackView, titleLabel, addButton])
+        stackView.alignment = .bottom
         
+        return stackView
+    }()
+    
+    private lazy var networkStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [networkLabel, stateImage, UILabel()])
+        stackView.alignment = .center
         return stackView
     }()
     
     private lazy var networkLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.text = "Online"
+        label.font = UIFont.systemFont(ofSize: 15, weight: .light)
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.text = "Offline"
         
         return label
+    }()
+    
+    private lazy var stateImage: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "circle.fill"))
+        imageView.tintColor = .red
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         label.text = "Project Manager"
         
         return label
