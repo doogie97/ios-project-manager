@@ -8,6 +8,7 @@
 import RxSwift
 import RxRelay
 import RxCocoa
+import Network
 
 protocol MainViewModelInOut: MainViewModelInput, MainViewModelOutput {}
 
@@ -20,6 +21,7 @@ protocol MainViewModelOutput {
     
     var showAddView: PublishRelay<Void> { get }
     var showEditView: PublishRelay<ListItem> { get }
+    var isConnectedInternet: PublishRelay<Bool> { get }
 }
 
 protocol MainViewModelInput {
@@ -31,6 +33,24 @@ protocol MainViewModelInput {
 
 final class MainViewModel: MainViewModelInOut {
     private var storage: Storegeable
+    let networkMonitor = NWPathMonitor()
+    
+    func checkNetwork() {
+        networkMonitor.start(queue: DispatchQueue.global())
+        networkMonitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                DispatchQueue.main.async {
+                    self.isConnectedInternet.accept(true)
+                    print("yes")
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.isConnectedInternet.accept(false)
+                    print("no")
+                }
+            }
+        }
+    }
 
 //MARK: - output
     let todoList: Driver<[ListItem]>
@@ -43,6 +63,7 @@ final class MainViewModel: MainViewModelInOut {
         todoList = storage.todoList.asDriver(onErrorJustReturn: [])
         doingList = storage.doingList.asDriver(onErrorJustReturn: [])
         doneList = storage.doneList.asDriver(onErrorJustReturn: [])
+        checkNetwork()
     }
     
     func listCount(_ type: ListType) -> Driver<String> {
@@ -58,6 +79,7 @@ final class MainViewModel: MainViewModelInOut {
     
     var showAddView = PublishRelay<Void>()
     var showEditView = PublishRelay<ListItem>()
+    var isConnectedInternet = PublishRelay<Bool>()
 }
 
 //MARK: - input

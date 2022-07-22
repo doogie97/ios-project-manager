@@ -90,6 +90,12 @@ final class MainViewController: UIViewController {
             self.present(self.container.makeAddViewController(), animated: true)
         })
         .disposed(by: disposebag)
+        
+        viewModel.isConnectedInternet.bind(onNext: { [weak self] in
+            self?.networkLabel.text = $0 ? "Online" : "Offline"
+            self?.stateImage.tintColor = $0 ? .systemGreen : .red
+        })
+        .disposed(by: disposebag)
     }
     
     private func bindTableView() {
