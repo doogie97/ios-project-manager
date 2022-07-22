@@ -41,12 +41,10 @@ final class MainViewModel: MainViewModelInOut {
             if path.status == .satisfied {
                 DispatchQueue.main.async {
                     self.isConnectedInternet.accept(true)
-                    print("yes")
                 }
             } else {
                 DispatchQueue.main.async {
                     self.isConnectedInternet.accept(false)
-                    print("no")
                 }
             }
         }
