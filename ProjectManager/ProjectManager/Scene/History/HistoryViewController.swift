@@ -8,7 +8,7 @@
 import RxSwift
 
 final class HistoryViewController: UIViewController {
-    let viewModel: HistoryViewModelable
+    private let viewModel: HistoryViewModelable
     
     init(viewModel: HistoryViewModelable) {
         self.viewModel = viewModel
@@ -19,8 +19,8 @@ final class HistoryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let historyView = HistoryView()
-    let disposeBag = DisposeBag()
+    private let historyView = HistoryView()
+    private let disposeBag = DisposeBag()
     
     override func loadView() {
         super.loadView()
